@@ -10,6 +10,7 @@
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css('bootstrap.min.css');
+		//echo $this->Html->css('cake.generic.css');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');

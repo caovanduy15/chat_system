@@ -15,7 +15,13 @@
 	</form>
 <div class="container">
 	<?php foreach($data as $value): ?>
-		<span class="btn btn-primary" style="margin: 2px;"><?php echo $value['tFeed']['name'] . ": " .  $value['tFeed']['message'] . " " . $value['tFeed']['create_at']?></span> <br>
+		<?php 
+			// format time
+			$date = new DateTime($value['tFeed']['create_at'], new DateTimeZone( 'UTC' ));
+			$date->setTimezone( new DateTimeZone( 'Asia/Ho_Chi_Minh' ) );
+
+		 ?>
+		<span class="btn btn-primary" style="margin: 2px;"><?php echo $value['tFeed']['name'] . ": " .  $value['tFeed']['message'] . " " . $date->format('d/m/Y H:i:s') ?></span> <br>
 	<?php endforeach; ?>
 </div>
 </div>

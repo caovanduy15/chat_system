@@ -7,8 +7,11 @@ class ChatController extends AppController {
 	}
 
 	public function feed() {
+		// get data from database and display data
 		$data = $this->tFeed->find('all');
 		$this->set("data", $data);
+
+		// get data from form and save data
 		if ($this->request->is('post')) {
 
 			$today = date("Y-m-d H:i:s");

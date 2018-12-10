@@ -28,8 +28,7 @@ class ChatController extends AppController {
             	$this->Flash->error(__('Unable to add your message.'));
             }
     	}
-		
-	}
+    }
 }
 
  ?>

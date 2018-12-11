@@ -1,11 +1,6 @@
 <?php 
 	class ChatController extends AppController {
-		public $uses = "tFeed";
-	
-		public function index() {
-	
-		}
-	
+		public $uses = "tFeed";	
 		public function feed() {
 			// get data from database and display data and sort desc
 			$data = $this->tFeed->find('all', array(

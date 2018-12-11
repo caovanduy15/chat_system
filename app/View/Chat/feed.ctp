@@ -45,6 +45,17 @@
 			 ?>
 			<div class="container form-group">
 				<div class="btn btn-primary"><?php echo  $nameUser . ": " . $message . " " . $date ?></div>
+				<div class="btn btn-warning">
+					<?php
+						echo $this->Form->postLink('Delete',
+							array(
+								'action' => 'delete',
+								$value['tFeed']['id']
+							),
+							array('confirm' => 'Are you sure?')
+						); 
+					?>
+				</div>
 			</div>
 		<?php endforeach; ?>
 	</div>

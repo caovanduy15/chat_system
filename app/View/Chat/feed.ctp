@@ -1,34 +1,44 @@
 
-<h1>Feed</h1> <br>
-<form method="post" id="usrform">
-Name: <input type="text" name="name" style="wide:75%;" >
-<input type="submit" style="float:left;">
-</form><br><br>
-Message: 
-<br>
-<textarea rows="4" cols="50" name="message" form="usrform">
-Enter text here...</textarea>
+<h1>Chat System</h1>
 
+ <!-- UI chat -->
+<div class="container">
+	<form method="POST">
+		<div class="row form-group">
+			<div class="col-md-1"><label for="name">Name</label></div>
+			<div class="col-md-6"><input type="text" class="form-control" name="name" id="name"></div>
+			<div class="col-md-3"><input type="submit" class="btn btn-default" value="POST"></div>
+		</div>
+		<div class="row form-group">
+			<div class="col-md-1"><label for="message">Message</label></div>
+			<div class="col-md-6"><textarea name="message" class="form-control" id="message"></textarea></div>
+		</div>
+	</form>
+
+ <!-- UI display message -->
+<div class="container">
 
 	 <!-- Display message -->
-	
-	<?php foreach($data as $feed): ?>
+	<?php foreach($data as $value): ?>
 		<?php 
-			
-			$nameUser = $feed['tFeed']['name'];
+			// name user
+			$nameUser = $value['tFeed']['name'];
+
 			// message
-			$message = $feed['tFeed']['message'];
+			$message = $value['tFeed']['message'];
+
 			// format time
-			$date = new DateTime($feed['tFeed']['time_at'], new DateTimeZone( 'UTC' ));
+			$date = new DateTime($value['tFeed']['create_at'], new DateTimeZone( 'UTC' ));
 			$date->setTimezone( new DateTimeZone( 'Asia/Ho_Chi_Minh' ) );
 			$date = $date->format('d/m/Y H:i:s')
+
 		 ?>
 		<div class="container form-group">
-			<div class="btn btn-primary"><?php echo  '<b>'.$nameUser . "</b>: " . $message . "<br> " . $date ?></div>
+			<div class="btn btn-primary"><?php echo  $nameUser . ": " . $message . " " . $date ?></div>
+			<!-- <div class="btn btn-success">Edit</div>
+			<div class="btn btn-danger">Delete</div> -->
 		</div>
 	<?php endforeach; ?>
-
-
-
-
+</div>
+</div>
 

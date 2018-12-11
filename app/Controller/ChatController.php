@@ -7,12 +7,15 @@ class ChatController extends AppController {
 	}
 
 	public function feed() {
-		// get data from database and sort desc
-		$data = $this->tFeed->find('all', array(
-					'order'=>array('id DESC')));
-
-		// Transfer data to view
-		$this->set("data", $data);
+		session_start();
+		if(!isset($_SESSION['user.email'])) {
+			return $this->redirect(
+				array(
+					'controller' => 'User',
+					'action' => 'login'
+				)
+			);
+		}	
 
 		// get data from form and save data
 		if ($this->request->is('post')) {
@@ -23,11 +26,17 @@ class ChatController extends AppController {
 			$this->tFeed->create();
 			if ($this->tFeed->save($this->request->data)) {
 				$this->Flash->success(__('Your message has been seen.'));
-				return $this->redirect(array('action' => 'feed'));
 			} else {
 				$this->Flash->error(__('Unable to add your message.'));
 			}
 		}
+
+		// get data from database and sort desc
+		$data = $this->tFeed->find('all', array(
+					'order'=>array('id DESC')));
+
+		// Transfer data to view
+		$this->set("data", $data);
 	}
 
 	

@@ -1,3 +1,4 @@
+
 <h1>Chat System</h1>
 
  <!-- UI chat -->
@@ -40,3 +41,4 @@
 	<?php endforeach; ?>
 </div>
 </div>
+

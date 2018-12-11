@@ -1,3 +1,4 @@
+
 <h1>Chat System</h1>
 
  <!-- UI chat -->
@@ -5,8 +6,8 @@
 	<form method="POST">
 		<div class="row form-group">
 			<div class="col-md-1"><label for="name">Name</label></div>
-			<div class="col-md-6"><input type="text" class="form-control" name="name" id="name"></div>
-			<div class="col-md-3"><input type="submit" class="btn btn-default" value="POST"></div>
+			<div class="col-md-6"><input type="text" class="form-control" name="name" id="name" value=""></div>
+			<div class="col-md-1"><input type="submit" class="btn btn-default" value="POST"></div>
 		</div>
 		<div class="row form-group">
 			<div class="col-md-1"><label for="message">Message</label></div>
@@ -34,8 +35,6 @@
 		 ?>
 		<div class="container form-group">
 			<div class="btn btn-primary"><?php echo  $nameUser . ": " . $message . " " . $date ?></div>
-			<!-- <div class="btn btn-success">Edit</div>
-			<div class="btn btn-danger">Delete</div> -->
 		</div>
 	<?php endforeach; ?>
 </div>

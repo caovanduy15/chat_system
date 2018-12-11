@@ -8,6 +8,12 @@ class UserController extends AppController {
 
 			//get data to form
 			$email_form = $_POST['e-mail'];
+
+			// validate email
+			if (!filter_var($email_form, FILTER_VALIDATE_EMAIL)) {
+				return $this->Flash->error(__('Invalid email format'));
+			}
+
 			$password_form = $_POST['password'];
 
 			// get data to database
@@ -20,6 +26,8 @@ class UserController extends AppController {
 			$user = $this->tUser->find('all', array('conditions' => array('tUser.e-mail' => $email_form)));
 
 			// check email
+
+
 			if(!empty($user)) {
 				$flag_valid_email = true;
 				// check password

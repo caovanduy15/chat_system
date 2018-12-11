@@ -1,7 +1,6 @@
 <?php
-	class tUser extends AppModel{
+	class tUser extends AppModel {
 		public $useTable = 't_user';
 		
 	}
 ?>
-	

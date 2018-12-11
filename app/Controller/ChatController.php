@@ -39,7 +39,18 @@ class ChatController extends AppController {
 		$this->set("data", $data);
 	}
 
-	
+	public function delete($id = null, $name = null) {
+		$message = $this->tFeed->findById($id);
+		session_start();
+		if($message['tFeed']['name'] === $_SESSION['user.name']) {
+			$this->tFeed->delete($id);
+			$this->Flash->success(__('Your message deleted successfully.'));
+		} else {
+			$this->Flash->error(__('You do not have permission to delete.'));
+		}
+
+		return $this->redirect(array('action' => 'feed'));
+	}	
 }
 
  ?>

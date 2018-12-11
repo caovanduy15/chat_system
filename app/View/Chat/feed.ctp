@@ -31,7 +31,6 @@
 				$date = new DateTime($value['tFeed']['create_at'], new DateTimeZone( 'UTC' ));
 				$date->setTimezone( new DateTimeZone( 'Asia/Ho_Chi_Minh' ) );
 				$date = $date->format('d/m/Y H:i:s')
-
 			 ?>
 			<div class="container form-group">
 				<div class="btn btn-primary"><?php echo  $nameUser . ": " . $message . " " . $date ?></div>

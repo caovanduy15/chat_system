@@ -1,6 +1,9 @@
-<?php 
-class tFeed extends AppModel {
-	public $useTable = "t_feed";
-}
 
- ?>
+<?php
+	class tFeed extends AppModel{
+		public $useTable = 't_feed';
+	}
+?>
+
+
+

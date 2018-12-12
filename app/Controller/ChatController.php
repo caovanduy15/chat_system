@@ -46,6 +46,8 @@ class ChatController extends AppController {
 		}
 		if($this->request->is(array('post','put'))){
 			$this->tFeed->id = $id;
+			$today = date("Y-m-d H:i:s");
+			$this->request->data['tFeed']['update_at'] = $today;
 			if ($this->tFeed->save($this->request->data)){
 				$this->Flash->success(__('Your message has been changed'));
 				return $this->redirect(array('action' =>'feed'));

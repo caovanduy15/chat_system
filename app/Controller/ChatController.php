@@ -1,5 +1,4 @@
-<?php 
-session_start();
+<?php
 class ChatController extends AppController {
 	public $uses = array("tFeed", "tUser");
 
@@ -10,6 +9,7 @@ class ChatController extends AppController {
 	public function feed() {
 
 		// If you are not logged in, navigate to the login page
+		session_start();
 		if(!$this->Session->check('user.email')) {
 			return $this->redirect(
 				array(

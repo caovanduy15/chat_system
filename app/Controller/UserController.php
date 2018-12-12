@@ -1,4 +1,5 @@
 <?php 
+session_start();
 class UserController extends AppController {
 	public $uses = "tUser";
 
@@ -53,6 +54,7 @@ class UserController extends AppController {
 				session_start();
 				$this->Session->write('user.email', $user_email);
 				$this->Session->write('user.name',  $user_name);
+				// Navigate to the feed page
 				return $this->redirect(
 					array(
 						'controller' => 'Chat',
@@ -76,7 +78,6 @@ class UserController extends AppController {
 
 	public function logout() {
 		// destory session data and go to login page
-		session_start();
 		$this->Session->destroy();
 		return $this->redirect(array('action' => 'login'));
 	}

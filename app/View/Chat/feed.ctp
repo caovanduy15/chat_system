@@ -1,5 +1,4 @@
 <h1>Chat System</h1>
-
  <!-- UI chat -->
 <div class="container">
 	<form method="POST">
@@ -45,6 +44,13 @@
 			 ?>
 			<div class="container form-group">
 				<div class="btn btn-primary"><?php echo  $nameUser . ": " . $message . " " . $date ?></div>
+				<?php
+					echo $this->html->link('edit',array(
+						"controller"=>"Chat",
+						"action"=>"edit",
+						$value['tFeed']['id']
+					)); 
+				?>
 				<div class="btn btn-warning">
 					<?php
 						echo $this->Form->postLink('Delete',

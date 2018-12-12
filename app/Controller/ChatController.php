@@ -1,4 +1,5 @@
 <?php 
+session_start();
 class ChatController extends AppController {
 	public $uses = array("tFeed", "tUser");
 
@@ -7,6 +8,7 @@ class ChatController extends AppController {
 	}
 
 	public function feed() {
+
 		session_start();
 		// If you are not logged in, navigate to the login page
 		if(!$this->Session->check('user.email')) {
@@ -17,7 +19,6 @@ class ChatController extends AppController {
 				)
 			);
 		}	
-
 		// get data from form and save data
 		if ($this->request->is('post')) {
 			// get time
@@ -39,7 +40,20 @@ class ChatController extends AppController {
 		// Transfer data to view
 		$this->set("data", $data);
 	}
-
+	public function edit($id=null){
+		$feed = $this->tFeed->findById($id);
+		if(!$this->request->data){
+			$this->request->data = $feed;
+		}
+		if($this->request->is(array('post','put'))){
+			$this->tFeed->id = $id;
+			if ($this->tFeed->save($this->request->data)){
+				$this->Flash->success(__('Your message has been changed'));
+				return $this->redirect(array('action' =>'feed'));
+			}
+			$this->Flash->error(__('Unable to change'));
+		}
+	}
 	public function delete($id = null, $name = null) {
 		// find message in database
 		$message = $this->tFeed->findById($id);

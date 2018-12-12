@@ -2,14 +2,9 @@
 session_start();
 class ChatController extends AppController {
 	public $uses = array("tFeed", "tUser");
-
 	public function index() {
-
 	}
-
 	public function feed() {
-
-		session_start();
 		// If you are not logged in, navigate to the login page
 		if(!$this->Session->check('user.email')) {
 			return $this->redirect(
@@ -32,11 +27,9 @@ class ChatController extends AppController {
 				$this->Flash->error(__('Unable to add your message.'));
 			}
 		}
-
 		// get data from database and sort desc
 		$data = $this->tFeed->find('all', array(
 					'order'=>array('id DESC')));
-
 		// Transfer data to view
 		$this->set("data", $data);
 	}
@@ -47,7 +40,12 @@ class ChatController extends AppController {
 		}
 		if($this->request->is(array('post','put'))){
 			$this->tFeed->id = $id;
+			$today = date("Y-m-d H:i:s");
+			$this->request->data['tFeed']['update_at'] = $today;
+			if ($this->tFeed->save($this->request->data))
+			// $this->tFeed->create();
 			if ($this->tFeed->save($this->request->data)){
+				// pr($this->request->data);exit();
 				$this->Flash->success(__('Your message has been changed'));
 				return $this->redirect(array('action' =>'feed'));
 			}
@@ -68,9 +66,7 @@ class ChatController extends AppController {
 		} else {
 			$this->Flash->error(__('You do not have permission to delete.'));
 		}
-
 		return $this->redirect(array('action' => 'feed'));
 	}	
 }
-
  ?>

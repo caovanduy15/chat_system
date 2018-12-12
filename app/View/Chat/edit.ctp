@@ -1,5 +1,6 @@
 <?php
 	echo $this->Form->create();
+	session_start();
 	$user_name = $this->Session->read('user.name');
 	// print_r('Hi '.$_SESSION['user.name']);
 	print_r('Hi '.$user_name);

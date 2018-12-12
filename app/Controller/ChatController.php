@@ -1,11 +1,11 @@
-<?php 
-session_start();
+<?php
 class ChatController extends AppController {
 	public $uses = array("tFeed", "tUser");
 	public function index() {
 	}
 	public function feed() {
 		// If you are not logged in, navigate to the login page
+		session_start();
 		if(!$this->Session->check('user.email')) {
 			return $this->redirect(
 				array(
@@ -42,8 +42,6 @@ class ChatController extends AppController {
 			$this->tFeed->id = $id;
 			$today = date("Y-m-d H:i:s");
 			$this->request->data['tFeed']['update_at'] = $today;
-			if ($this->tFeed->save($this->request->data))
-			// $this->tFeed->create();
 			if ($this->tFeed->save($this->request->data)){
 				// pr($this->request->data);exit();
 				$this->Flash->success(__('Your message has been changed'));

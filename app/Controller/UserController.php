@@ -1,8 +1,6 @@
 <?php 
-session_start();
 class UserController extends AppController {
 	public $uses = "tUser";
-
 	public function regist(){
 		// set up database connection
 		$data = $this->tUser->find('all');
@@ -26,25 +24,31 @@ class UserController extends AppController {
 			$email_form = $_POST['e-mail'];
 			$password_form = $_POST['password'];
 
-			// validate email
+			//validate email
 			if (!filter_var($email_form, FILTER_VALIDATE_EMAIL)) {
 				return $this->Flash->error(__('Invalid email format'));
 			}
 
-			$flag_valid_email = false;
-			$flag_valid_password = false;
-
 			// check e-mail in database
-			$user = $this->tUser->find('all', array('conditions' => array('tUser.e-mail' => $email_form)));
-
+			$user = $this->tUser->find('first', array('conditions' => array('tUser.e-mail' => $email_form)));
 			// check email and password
 			if(!empty($user)) {
-				$flag_valid_email = true;
+
 				// check password
-				if ($user[0]['tUser']['password'] === $password_form) {
-					$flag_valid_password = true;
-					$user_email = $user[0]['tUser']['e-mail'];
-					$user_name = $user[0]['tUser']['name'];
+				if ($user['tUser']['password'] === $password_form) {
+					// set session
+					session_start();
+					$this->Session->write('user.email', $user['tUser']['e-mail']);
+					$this->Session->write('user.name',  $user['tUser']['name']);
+					return $this->redirect(
+						array(
+							'controller' => 'Chat',
+							'action' => 'feed'
+						)
+					);
+				} else {
+					// Error message password is incorrect
+					return $this->Flash->error(__('Your password is incorrect'));
 				}
 			}
 
@@ -71,9 +75,11 @@ class UserController extends AppController {
 			if(!$flag_valid_password) {
 				return $this->Flash->error(__('Your password is incorrect'));
 			}
+			} else {
+				// Error message email does not exist
+				return $this->Flash->error(__('Your email does not exist'));
+			} 
 		}
-	}
-
 	public function logout() {
 		// destory session data and go to login page
 		$this->Session->destroy();

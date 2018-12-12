@@ -41,7 +41,7 @@ class UserController extends AppController {
 					// set session
 					session_start();
 					$this->Session->write('user.email', $user['tUser']['e-mail']);
-					$this->Session->write('user.name',  $user['tUser']['e-mail']);
+					$this->Session->write('user.name',  $user['tUser']['name']);
 					return $this->redirect(
 						array(
 							'controller' => 'Chat',

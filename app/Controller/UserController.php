@@ -1,4 +1,5 @@
 <?php 
+session_start();
 class UserController extends AppController {
 	public $uses = "tUser";
 
@@ -51,10 +52,10 @@ class UserController extends AppController {
 
 			// Check flag
 			if($flag_valid_email && $flag_valid_password) {
-				session_start();
+				
 				//set session
-				$_SESSION['user.email'] = $user_email;
-				$_SESSION['user.name'] = $user_name;
+				$this->Session->write('user_name', $user_name);				
+				$this->Session->write('user_email', $user_email);
 				return $this->redirect(
 					array(
 						'controller' => 'Chat',
@@ -78,7 +79,6 @@ class UserController extends AppController {
 
 	public function logout() {
 		// destory session data and go to login page
-		session_start();
 		$this->Session->destroy();
 		return $this->redirect(array('action' => 'login'));
 	}

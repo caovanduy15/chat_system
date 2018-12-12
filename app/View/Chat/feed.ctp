@@ -45,6 +45,14 @@
 			 ?>
 			<div class="container form-group">
 				<div class="btn btn-primary"><?php echo  $nameUser . ": " . $message . " " . $date ?></div>
+				<!-- button type="button" class="btn btn-secondary btn-sm">Edit</button> --> 
+				<?php
+					echo $this->html->link('edit',array(
+						"controller"=>"Chat",
+						"action"=>"edit",
+						$value['tFeed']['id']
+					)); 
+				?>
 			</div>
 		<?php endforeach; ?>
 	</div>

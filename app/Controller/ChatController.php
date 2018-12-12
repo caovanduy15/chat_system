@@ -1,4 +1,5 @@
 <?php 
+session_start();
 class ChatController extends AppController {
 	public $uses = array("tFeed", "tUser");
 
@@ -7,7 +8,7 @@ class ChatController extends AppController {
 	}
 
 	public function feed() {
-		session_start();
+		echo $this->Session->read('user_name');
 		if(!isset($_SESSION['user.email'])) {
 			return $this->redirect(
 				array(
@@ -38,7 +39,20 @@ class ChatController extends AppController {
 		// Transfer data to view
 		$this->set("data", $data);
 	}
-
+	public function edit($id=null){
+		$feed = $this->tFeed->findById($id);
+		if(!$this->request->data){
+			$this->request->data = $feed;
+		}
+		if($this->request->is(array('post','put'))){
+			$this->tFeed->id = $id;
+			if ($this->tFeed->save($this->request->data)){
+				$this->Flash->success(__('Your message has been changed'));
+				return $this->redirect(array('action' =>'feed'));
+			}
+			$this->Flash->error(__('Unable to change'));
+		}
+	}
 	
 }
 

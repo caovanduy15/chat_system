@@ -1,6 +1,7 @@
 <?php 
 class UserController extends AppController {
 	public $uses = "tUser";
+
 	public function regist(){
 		// set up database connection
 		$data = $this->tUser->find('all');
@@ -21,8 +22,8 @@ class UserController extends AppController {
 		if ($this->request->is('post')) {
 
 			//get data to form
-			$email_form = $_POST['e-mail'];
-			$password_form = $_POST['password'];
+			$email_form = $this->request->data('e-mail');;
+			$password_form = $this->request->data('password');;
 
 			//validate email
 			if (!filter_var($email_form, FILTER_VALIDATE_EMAIL)) {
@@ -50,36 +51,13 @@ class UserController extends AppController {
 					// Error message password is incorrect
 					return $this->Flash->error(__('Your password is incorrect'));
 				}
-			}
-
-			// Check flag
-			if($flag_valid_email && $flag_valid_password) {
-				
-				//set session
-				$this->Session->write('user_name', $user_name);				
-				$this->Session->write('user_email', $user_email);
-				return $this->redirect(
-					array(
-						'controller' => 'Chat',
-						'action' => 'feed'
-					)
-				);
-			}
-
-			// Error message email does not exist
-			if(!$flag_valid_email) {
-				return $this->Flash->error(__('Your email does not exist'));
-			}
-
-			// Error message password is incorrect
-			if(!$flag_valid_password) {
-				return $this->Flash->error(__('Your password is incorrect'));
-			}
 			} else {
 				// Error message email does not exist
 				return $this->Flash->error(__('Your email does not exist'));
 			} 
 		}
+	}
+
 	public function logout() {
 		// destory session data and go to login page
 		$this->Session->destroy();

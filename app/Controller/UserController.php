@@ -26,27 +26,25 @@ class UserController extends AppController {
 			$email_form = $_POST['e-mail'];
 			$password_form = $_POST['password'];
 
-			// get data to database
-			$data = $this->tUser->find('all');
+			// validate email
+			if (!filter_var($email_form, FILTER_VALIDATE_EMAIL)) {
+				return $this->Flash->error(__('Invalid email format'));
+			}
 
 			$flag_valid_email = false;
 			$flag_valid_password = false;
 
-			// user email and user name login success
-			$user_email = '';
-			$user_name = '';
+			// check e-mail in database
+			$user = $this->tUser->find('all', array('conditions' => array('tUser.e-mail' => $email_form)));
 
 			// check email and password
-			foreach ($data as $user) {
-				if($user['tUser']['e-mail'] === $email_form) {
-					$flag_valid_email = true;
-					if($user['tUser']['password'] === $password_form) {
-						$flag_valid_password = true;
-						// get email login success from database
-						$user_email = $user['tUser']['e-mail'];
-						// get name login success from database
-						$user_name = $user['tUser']['name'];
-					}
+			if(!empty($user)) {
+				$flag_valid_email = true;
+				// check password
+				if ($user[0]['tUser']['password'] === $password_form) {
+					$flag_valid_password = true;
+					$user_email = $user[0]['tUser']['e-mail'];
+					$user_name = $user[0]['tUser']['name'];
 				}
 			}
 

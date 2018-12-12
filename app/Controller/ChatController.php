@@ -8,6 +8,10 @@ class ChatController extends AppController {
 	}
 
 	public function feed() {
+
+		session_start();
+
+		// If you are not logged in, navigate to the login page
 		if(!isset($_SESSION['user.email'])) {
 			return $this->redirect(
 				array(
@@ -16,7 +20,6 @@ class ChatController extends AppController {
 				)
 			);
 		}	
-
 		// get data from form and save data
 		if ($this->request->is('post')) {
 			// get time
@@ -52,7 +55,23 @@ class ChatController extends AppController {
 			$this->Flash->error(__('Unable to change'));
 		}
 	}
-	
+	public function delete($id = null, $name = null) {
+		// find message in database
+		$message = $this->tFeed->findById($id);
+		session_start();
+		// If the message of the user is allowed to delete. otherwise not
+		if($message['tFeed']['name'] === $_SESSION['user.name']) {
+			if($this->tFeed->delete($id)) {
+				$this->Flash->success(__('Your message deleted successfully.'));
+			} else {
+				$this->Flash->error(__('Your deleted message failed.'));
+			}
+		} else {
+			$this->Flash->error(__('You do not have permission to delete.'));
+		}
+
+		return $this->redirect(array('action' => 'feed'));
+	}	
 }
 
  ?>

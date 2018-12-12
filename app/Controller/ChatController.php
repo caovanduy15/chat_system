@@ -20,6 +20,9 @@ class ChatController extends AppController {
 		}	
 		// get data from form and save data
 		if ($this->request->is('post')) {
+			// 
+			$this->request->data['name'] = $this->Session->read('user.name');
+
 			// get time
 			$today = date("Y-m-d H:i:s");
 			// 2001-03-10 17:16:18 (the MySQL DATETIME format)
@@ -55,7 +58,7 @@ class ChatController extends AppController {
 			$this->Flash->error(__('Unable to change'));
 		}
 	}
-	public function delete($id = null, $name = null) {
+	public function delete($id = null) {
 		// find message in database
 		$message = $this->tFeed->findById($id);
 		session_start();

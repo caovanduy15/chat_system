@@ -8,6 +8,8 @@ class ChatController extends AppController {
 
 	public function feed() {
 		session_start();
+
+		// If you are not logged in, navigate to the login page
 		if(!isset($_SESSION['user.email'])) {
 			return $this->redirect(
 				array(
@@ -40,11 +42,16 @@ class ChatController extends AppController {
 	}
 
 	public function delete($id = null, $name = null) {
+		// find message in database
 		$message = $this->tFeed->findById($id);
 		session_start();
+		// If the message of the user is allowed to delete. otherwise not
 		if($message['tFeed']['name'] === $_SESSION['user.name']) {
-			$this->tFeed->delete($id);
-			$this->Flash->success(__('Your message deleted successfully.'));
+			if($this->tFeed->delete($id)) {
+				$this->Flash->success(__('Your message deleted successfully.'));
+			} else {
+				$this->Flash->error(__('Your deleted message failed.'));
+			}
 		} else {
 			$this->Flash->error(__('You do not have permission to delete.'));
 		}

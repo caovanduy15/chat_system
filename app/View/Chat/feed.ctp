@@ -5,7 +5,7 @@
 	<form method="POST">
 		<div class="row form-group">
 			<div class="col-md-1"><label for="name">Name</label></div>
-			<div class="col-md-6"><input type="text" class="form-control" name="name" id="name" value="<?php echo $_SESSION['user.name']; ?>"></div>
+			<div class="col-md-6"><input type="text" class="form-control" name="name" id="name" value="<?php echo $this->Session->read('user.name'); ?>"></div>
 			<div class="col-md-1"><input type="submit" class="btn btn-default" value="POST"></div>
 			<div class="col-md-1">
 				<div class="btn">

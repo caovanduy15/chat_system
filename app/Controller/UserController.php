@@ -22,8 +22,8 @@ class UserController extends AppController {
 		if ($this->request->is('post')) {
 
 			//get data to form
-			$email_form = $_POST['e-mail'];
-			$password_form = $_POST['password'];
+			$email_form = $this->request->data('e-mail');;
+			$password_form = $this->request->data('password');;
 
 			// validate email
 			if (!filter_var($email_form, FILTER_VALIDATE_EMAIL)) {
@@ -49,10 +49,10 @@ class UserController extends AppController {
 
 			// Check flag
 			if($flag_valid_email && $flag_valid_password) {
-				session_start();
 				//set session
-				$_SESSION['user.email'] = $user_email;
-				$_SESSION['user.name'] = $user_name;
+				session_start();
+				$this->Session->write('user.email', $user_email);
+				$this->Session->write('user.name',  $user_name);
 				return $this->redirect(
 					array(
 						'controller' => 'Chat',

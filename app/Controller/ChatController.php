@@ -8,9 +8,8 @@ class ChatController extends AppController {
 
 	public function feed() {
 		session_start();
-
 		// If you are not logged in, navigate to the login page
-		if(!isset($_SESSION['user.email'])) {
+		if(!$this->Session->check('user.email')) {
 			return $this->redirect(
 				array(
 					'controller' => 'User',
@@ -46,7 +45,7 @@ class ChatController extends AppController {
 		$message = $this->tFeed->findById($id);
 		session_start();
 		// If the message of the user is allowed to delete. otherwise not
-		if($message['tFeed']['name'] === $_SESSION['user.name']) {
+		if($message['tFeed']['name'] === $this->Session->read('user.name')) {
 			if($this->tFeed->delete($id)) {
 				$this->Flash->success(__('Your message deleted successfully.'));
 			} else {

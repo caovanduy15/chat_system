@@ -8,7 +8,6 @@ class ChatController extends AppController {
 	}
 
 	public function feed() {
-		echo $this->Session->read('user_name');
 		if(!isset($_SESSION['user.email'])) {
 			return $this->redirect(
 				array(

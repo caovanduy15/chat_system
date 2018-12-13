@@ -6,6 +6,13 @@
 			<div class="col-md-1"><label for="name">Name</label></div>
 			<div class="col-md-6"><input type="text" class="form-control" name="name" id="name" value="<?php echo $this->Session->read('user.name'); ?>" disabled></div>
 			<div class="col-md-1"><input type="submit" class="btn btn-default" value="POST"></div>
+			<div>
+				<?php echo $this->Form->input('photo', array('type' => 'file', 'label' => '')) ?>
+			</div>
+		</div>
+		<div class="row form-group">
+			<div class="col-md-1"><label for="message">Message</label></div>
+			<div class="col-md-6"><textarea name="message" class="form-control" id="message"></textarea></div>
 			<div class="col-md-1">
 				<div class="btn">
 					<?php
@@ -14,18 +21,11 @@
 								'controller' => 'User',
 								'action' => 'logout'
 							)
-						); 
+						);
 					?>
 				</div>
 			</div>
 		</div>
-		<div class="row form-group">
-			<div class="col-md-1"><label for="message">Message</label></div>
-			<div class="col-md-6"><textarea name="message" class="form-control" id="message"></textarea></div>
-		</div>
-
-		<p>img</p>
-		<input type="file" name="fileToUpload" id="fileToUpload">
 	</form>
 
 	<!-- UI display message -->
@@ -37,6 +37,12 @@
 				// name user
 				$nameUser = $value['tFeed']['name'];
 
+				// base url
+				$base_url = Router::fullbaseUrl();
+
+				// photo
+				$photo = $base_url . '/chat_system/app/webroot/img/upload/' . $value['tFeed']['image_file_name'];
+
 				// message
 				$message = $value['tFeed']['message'];
 
@@ -46,7 +52,17 @@
 				$date = $date->format('d/m/Y H:i:s')
 			 ?>
 			<div class="container form-group">
-				<div class="btn btn-primary"><?php echo  $nameUser . ": " . $message . " " . $date ?></div>
+				<div class="btn btn-primary">
+					<?php echo  $nameUser . ": " ?>
+					<?php 
+					if (!empty($value['tFeed']['image_file_name'])) {
+						echo "<img src='";
+						echo $photo;
+						echo "' width='100px'/>";
+					}
+					 ?>
+					<?php echo $message . " " . $date ?>
+				</div>
 				<?php
 					if($this->Session->read('user.name')==$nameUser){
 						echo $this->html->link('edit',array(
@@ -65,7 +81,7 @@
 								$value['tFeed']['id']
 							),
 							array('confirm' => 'Are you sure?')
-						); 
+						);
 						echo "</div>";
 					}
 				?>

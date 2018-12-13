@@ -17,7 +17,8 @@ class UserController extends AppController {
     			$username = $user['tUser']['e-mail'];
 				if ($username == $email_form){
 					$this->Flash->error(__('Please use other e-mail'));
-			}}
+				}
+			}
 			else{ 
 				$this->tUser->create();
 				$this->tUser->save($this->request->data);
@@ -29,7 +30,6 @@ class UserController extends AppController {
 
 	public function login() {
 		if ($this->request->is('post')) {
-
 			//get data to form
 			$email_form = $this->request->data('e-mail');
 			$password_form = $this->request->data('password');

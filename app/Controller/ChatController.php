@@ -8,39 +8,45 @@ class ChatController extends AppController {
 		if(!$this->Session->check('user.email')) {
 			return $this->redirect(array('controller' => 'User', 'action' => 'login'));
 		}	
+
 		// get data from form and save data
 		if ($this->request->is('post')) {
-			$this->request->data['name'] = $this->Session->read('user.name');
-			// check send image
-			if($this->request->data['photo']['error'] == 0) {
-				$photo_name = time();
-				// add file extension
-				switch ($this->request->data['photo']['type']) {
-					case 'image/jpeg':
-						$photo_name .= ".jpg";
-						break;
-					case 'image/png':
-						$photo_name .= ".png";
-						break;
-					case 'image/gif':
-						$photo_name .= ".gif";
-						break;
-				}
-				// path save photo
-				$photo_path = $_SERVER['DOCUMENT_ROOT'] . '/chat_system/app/webroot/img/upload/' . $photo_name;
-				$this->request->data['image_file_name'] = $photo_name;
-				// save image
-				move_uploaded_file($this->request->data['photo']['tmp_name'], $photo_path);
-			}
-			// get time
-			$today = date("Y-m-d H:i:s");
-			// 2001-03-10 17:16:18 (the MySQL DATETIME format)
-			$this->request->data['create_at'] = $today;
-			$this->tFeed->create();
-			if ($this->tFeed->save($this->request->data)) {
-				$this->Flash->success(__('Your message has been seen.'));
+			// check empty message
+			if(empty($this->request->data['message']) && $this->request->data['photo']['error'] != 0) {
+				$this->Flash->error(__('Empty message'));
 			} else {
-				$this->Flash->error(__('Unable to add your message.'));
+				$this->request->data['name'] = $this->Session->read('user.name');
+				// check send image
+				if($this->request->data['photo']['error'] == 0) {
+					$photo_name = time();
+					// add file extension
+					switch ($this->request->data['photo']['type']) {
+						case 'image/jpeg':
+							$photo_name .= ".jpg";
+							break;
+						case 'image/png':
+							$photo_name .= ".png";
+							break;
+						case 'image/gif':
+							$photo_name .= ".gif";
+							break;
+					}
+					// path save photo
+					$photo_path = $_SERVER['DOCUMENT_ROOT'] . '/chat_system/app/webroot/img/upload/' . $photo_name;
+					$this->request->data['image_file_name'] = $photo_name;
+					// save image
+					move_uploaded_file($this->request->data['photo']['tmp_name'], $photo_path);
+				}
+				// get time
+				$today = date("Y-m-d H:i:s");
+				// 2001-03-10 17:16:18 (the MySQL DATETIME format)
+				$this->request->data['create_at'] = $today;
+				$this->tFeed->create();
+				if ($this->tFeed->save($this->request->data)) {
+					$this->Flash->success(__('Your message has been seen.'));
+				} else {
+					$this->Flash->error(__('Unable to add your message.'));
+				}
 			}
 		}
 		// get data from database and sort desc

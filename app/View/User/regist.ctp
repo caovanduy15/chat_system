@@ -1,4 +1,3 @@
-
 <h1> Regist user</h1>
 
  <!-- UI chat -->

@@ -1,6 +1,6 @@
 <?php 
 class UserController extends AppController {
-	public $uses = "tUser";
+	public $uses = array("tUser");
 
 	public function regist(){
 		// set up database connection
@@ -8,13 +8,22 @@ class UserController extends AppController {
 		$this->set("data", $data);
 		// get data from form and save data
 		if ($this->request->is('post')){
-			$this->tUser->create();
-			if ($this->tUser->save($this->request->data)){
+			$email_form = $this->request->data('e-mail');
+			$user = $this->tUser->find('first', array(
+        		'conditions' => array('tUser.e-mail' => $email_form)
+    		));
+    		if($user!=NULL){
+    			$username = $user['tUser']['e-mail'];
+				if ($username == $email_form){
+					$this->Flash->error(__('Please use other e-mail'));
+			}}
+			else{ 
+				$this->tUser->create();
+				$this->tUser->save($this->request->data);
 				$this->Flash->success(__('Regist successfully'));
 				return $this->redirect(array('action'=>'login'));	
 			}
 		}
-
 	} 
 
 	public function login() {

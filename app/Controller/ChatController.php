@@ -6,6 +6,24 @@ class ChatController extends AppController {
 
 	}
 
+
+
+	//up
+	 public function initialize(){
+        parent::initialize();
+        
+        // Include the FlashComponent
+        $this->loadComponent('Flash');
+        
+        // Load Files model
+        $this->loadModel('t_feed');
+        
+        // Set the layout
+        $this->layout = 'frontend';
+    }
+    //feed
+
+
 	public function feed() {
 
 		// If you are not logged in, navigate to the login page
@@ -19,7 +37,9 @@ class ChatController extends AppController {
 			);
 		}	
 		// get data from form and save data
-		if ($this->request->is('post')) {
+		if ($this->request->is('post')) {			
+
+
 			// 
 			$this->request->data['name'] = $this->Session->read('user.name');
 
@@ -33,7 +53,55 @@ class ChatController extends AppController {
 			} else {
 				$this->Flash->error(__('Unable to add your message.'));
 			}
+			//upload
+			$target_dir = "img/upload/";
+			$target_file = $target_dir . basename($_FILES["tFeed"]["image_file_name"]);
+			$uploadOk = 1;
+			$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+			// Check if image file is a actual image or fake image
+			if(isset($_POST["submit"])) {
+			    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+			    if($check !== false) {
+			        echo "File is an image - " . $check["mime"] . ".";
+			        $uploadOk = 1;
+			    } else {
+			        echo "File is not an image.";
+			        $uploadOk = 0;
+			    }
+			}
+
+			//upload
+			// if(!empty($this->request->data['file']['name'])){
+   //              echo 'HaHa';
+   //              $fileName = $this->request->data['file']['name'];
+   //              $uploadPath = 'img/upload/';
+   //              $uploadFile = $uploadPath.$fileName;
+   //              if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)){
+   //                  $uploadData = $this->Files->newEntity();
+   //                  $uploadData->name = $fileName;
+   //                  $uploadData->path = $uploadPath;
+   //                  $uploadData->created = date("Y-m-d H:i:s");
+   //                  $uploadData->modified = date("Y-m-d H:i:s");
+   //                  if ($this->Files->save($uploadData)) {
+   //                      $this->Flash->success(__('File has been uploaded and inserted successfully.'));
+   //                  }else{
+   //                      $this->Flash->error(__('Unable to upload file, please try again.'));
+   //                  }
+   //              }else{
+   //                  $this->Flash->error(__('Unable to upload file, please try again.'));
+   //              }
+   //          }else{
+   //              $this->Flash->error(__('Please choose a file to upload.'));
+   //          }
+            // $this->set('uploadData', $uploadData);
+
 		}
+
+
+
+		
+
+
 
 		// get data from database and sort desc
 		$data = $this->tFeed->find('all', array(

@@ -33,15 +33,15 @@
 
 		 <!-- Display message -->
 		<?php foreach($data as $value): ?>
-			<?php 
+			<?php
 				// name user
 				$nameUser = $value['tFeed']['name'];
 
 				// base url
-				$base_url = Router::fullbaseUrl();
+				$base_url = Router::url('/', true);
 
 				// photo
-				$photo = $base_url . '/chat_system/app/webroot/img/upload/' . $value['tFeed']['image_file_name'];
+				$photo = $base_url . 'app/webroot/img/upload/' . $value['tFeed']['image_file_name'];
 
 				// message
 				$message = $value['tFeed']['message'];

@@ -20,7 +20,7 @@
 								'controller' => 'User',
 								'action' => 'regist'
 							)
-						); 
+						);
 					?>
 				</div>
 			</div>

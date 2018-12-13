@@ -3,7 +3,7 @@ class ChatController extends AppController {
 	public $uses = array("tFeed", "tUser");
 
 	public function index() {
-
+		
 	}
 
 	public function feed() {

@@ -53,15 +53,13 @@
 			 ?>
 			<div class="container form-group">
 				<div class="btn btn-primary">
-					<?php echo  $nameUser . ": " ?>
 					<?php 
-					if (!empty($value['tFeed']['image_file_name'])) {
-						echo "<img src='";
-						echo $photo;
-						echo "' width='100px'/>";
+					echo  $nameUser . ": ";
+					if (!empty($value['tFeed']['image_file_name'])) { ?>
+						<img src="<?php echo $photo; ?>" width = "100px">
+					<?php
 					}
-					 ?>
-					<?php echo $message . " " . $date ?>
+					echo $message . " " . $date ?>
 				</div>
 				<?php
 					if($this->Session->read('user.name')==$nameUser){

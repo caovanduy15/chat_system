@@ -19,10 +19,9 @@ class ChatController extends AppController {
 			);
 		}	
 		// get data from form and save data
-		if ($this->request->is('post')) {
+		if ($this->request->is('post')) {			
 			// 
 			$this->request->data['name'] = $this->Session->read('user.name');
-
 			// get time
 			$today = date("Y-m-d H:i:s");
 			// 2001-03-10 17:16:18 (the MySQL DATETIME format)
@@ -34,11 +33,9 @@ class ChatController extends AppController {
 				$this->Flash->error(__('Unable to add your message.'));
 			}
 		}
-
 		// get data from database and sort desc
 		$data = $this->tFeed->find('all', array(
 					'order'=>array('id DESC')));
-
 		// Transfer data to view
 		$this->set("data", $data);
 	}

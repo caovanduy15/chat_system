@@ -1,7 +1,7 @@
 <h1>Chat System</h1>
  <!-- UI chat -->
 <div class="container">
-	<form method="POST">
+	<form method="POST" enctype="multipart/form-data">
 		<div class="row form-group">
 			<div class="col-md-1"><label for="name">Name</label></div>
 			<div class="col-md-6"><input type="text" class="form-control" name="name" id="name" value="<?php echo $this->Session->read('user.name'); ?>" disabled></div>
@@ -23,6 +23,9 @@
 			<div class="col-md-1"><label for="message">Message</label></div>
 			<div class="col-md-6"><textarea name="message" class="form-control" id="message"></textarea></div>
 		</div>
+
+		<p>img</p>
+		<input type="file" name="fileToUpload" id="fileToUpload">
 	</form>
 
 	<!-- UI display message -->

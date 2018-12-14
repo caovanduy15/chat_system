@@ -1,14 +1,13 @@
 <?php
 session_start();
 class ChatController extends AppController {
-	public $uses = array("tFeed", "tUser");
+	public $uses = array("tFeed", "tUser", 'File', 'Utility');
 
 	public function feed() {
 		// If you are not logged in, navigate to the login page
 		if(!$this->Session->check('user.email')) {
 			return $this->redirect(array('controller' => 'User', 'action' => 'login'));
-		}	
-
+		}
 		// get data from form and save data
 		if ($this->request->is('post')) {
 			// check empty message
@@ -32,7 +31,7 @@ class ChatController extends AppController {
 							break;
 					}
 					// path save photo
-					$photo_path = $_SERVER['DOCUMENT_ROOT'] . '/chat_system/app/webroot/img/upload/' . $photo_name;
+					$photo_path = IMAGES . 'upload/' . $photo_name;
 					$this->request->data['image_file_name'] = $photo_name;
 					// save image
 					move_uploaded_file($this->request->data['photo']['tmp_name'], $photo_path);
@@ -41,6 +40,7 @@ class ChatController extends AppController {
 				$today = date("Y-m-d H:i:s");
 				// 2001-03-10 17:16:18 (the MySQL DATETIME format)
 				$this->request->data['create_at'] = $today;
+				$this->request->data['update_at'] = $today;
 				$this->tFeed->create();
 				if ($this->tFeed->save($this->request->data)) {
 					$this->Flash->success(__('Your message has been seen.'));
@@ -62,6 +62,40 @@ class ChatController extends AppController {
 		}
 
 		if($this->request->is(array('post','put'))) {
+			if($this->request->data['tFeed']['photo']['error'] == 0) {
+				$photo_name = time();
+				// add file extension
+				switch ($this->request->data['tFeed']['photo']['type']) {
+					case 'image/jpeg':
+						$photo_name .= ".jpg";
+						break;
+					case 'image/png':
+						$photo_name .= ".png";
+						break;
+					case 'image/gif':
+						$photo_name .= ".gif";
+						break;
+				}
+				// path save photo
+				$photo_path = IMAGES . 'upload/' . $photo_name;
+				$this->request->data['tFeed']['image_file_name'] = $photo_name;
+				// save image
+				if(!empty($feed['tFeed']['image_file_name'])) {
+					if(move_uploaded_file($this->request->data['tFeed']['photo']['tmp_name'], $photo_path)) {
+						$this->Flash->success(__('Update your image successful'));
+						$old_photo_path = IMAGES.'upload/'.$feed['tFeed']['image_file_name'];
+						$file = new File($old_photo_path, false, 0777);
+						if($file->delete()) {
+							$this->Flash->success(__('Delete your old photos successfully'));
+						} else {
+							$this->Flash->success(__('Delete your old photos failed'));
+						}
+					}
+				} else {
+					move_uploaded_file($this->request->data['tFeed']['photo']['tmp_name'], $photo_path);
+					$this->Flash->success(__('Update your image successful'));
+				}
+			}
 			$this->tFeed->id = $id;
 			$today = date("Y-m-d H:i:s");
 			$this->request->data['tFeed']['update_at'] = $today;

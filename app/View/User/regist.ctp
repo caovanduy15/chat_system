@@ -10,10 +10,10 @@
 				<div class="col-md-3"><label for="name">e-mail</label></div>
 				<div class="col-md-9"><input type="text" class="form-control" name="e-mail" id="name"></div>
 				<div class="col-md-3"><label for="name">password</label></div>
-				<div class="col-md-9"><input type="text" class="form-control" name="password" id="name"></div>
+				<div class="col-md-9"><input type="password" class="form-control" name="password" id="name"></div>
 			</div>
 		</div>
 		<div class="col-md-3"><input type="submit" class="btn btn-default" value="Register"></div>
-		<div class="col-md-3"><input href="/login" class="btn btn-default" value="Login"></div>
+		<div class="col-md-3"><a href="./login" class="btn btn-default">Login</div>
 	</form>
 </div>

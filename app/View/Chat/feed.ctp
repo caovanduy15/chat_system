@@ -56,7 +56,9 @@
 					<?php 
 					echo  $nameUser . ": ";
 					if (!empty($value['tFeed']['image_file_name'])) { ?>
-						<img src="<?php echo $photo; ?>" width = "100px">
+						<a href="<?php echo $photo; ?>" target="_blank">
+							<img src="<?php echo $photo; ?>" width = "100px">
+						</a>
 					<?php
 					}
 					echo $message . " " . $date ?>
